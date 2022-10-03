@@ -11,11 +11,10 @@ GP2 equ 02h
 GP3 equ 03h
 var1 equ 10h
  
-;start;
+;start
 ORG 0X000
 movwf OSCCAL
 goto main
-
 ORG 0X020
  
 main:
@@ -23,7 +22,17 @@ main:
     option
     movlw 0F8h
     tris GPIO
+    goto bp
 
+bp:
+    BTFSS GPIO,3   ; if GP3 =1
+    goto allumer   ; puis on allume
+    BCF GPIO,0  ;
+    goto main
+allumer:
+    BSF GPIO,GP0 ;GPO=1
+    goto bp     ;goto test
+    
 END
 
 
